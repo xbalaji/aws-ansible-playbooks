@@ -1,0 +1,40 @@
+---
+
+#
+# Filename    : 01-print-ec2-keys.yml
+# Date        : 03 Mar 2019
+# Author      : Balaji Venkataraman (xbalaji@gmail.com)
+# Description : print encrypted strings values
+#
+# Usage:
+# run this playbook using one of the command as below
+# Note: This uses ./ansible.cfg for configuration
+#       Also, source ./ansible.env for setting the vault password
+#
+# host has to be specified explicity using "-i" option, when cfg is not used
+# password has to be taken from command line if 
+#   ANSIBLE_VAULT_PASSWORD, ANSIBLE_VAULT_PASSWORD_FILE not set in env.
+#
+# ansible-playbook 01-print-ec2-keys.yml
+# ansible-playbook 01-print-ec2-keys.yml --ask-vault-pass
+# ansible-playbook -i "localhost," --ask-vault-pass 01-print-ec2-keys.yml
+#
+# use -vvv in command line for verbose output
+# ansible-playbook 01-print-ec2-keys.yml -vvv
+#
+
+
+- hosts: localhost
+  name: run a simple play
+  tasks:
+    - include_vars: 
+        file: ec2_keys.yml
+    - shell: echo "hello, world"
+    - debug:
+        msg: 
+          - "file_owner     : {{file_owner}} "
+          - "account name   : {{account_name}} "
+          - "ec2_access_key : {{ec2_access_key}} "
+          - "ec2_secret_key : {{ec2_secret_key}} " 
+
+
