@@ -1,0 +1,46 @@
+
+#
+# Filename    : ec2_keys.yml
+# Date        : 03 Mar 2019
+# Author      : Balaji Venkataraman (xbalaji@gmail.com)
+# Description : ec2 access and secret keys for accessing AWS infrastructure
+#
+# Usage:
+#
+# This file uses "encrypt_string" to encrypt specific variables
+#
+# execute:
+# for generating encrypted strings use the following:
+#
+# source ./ansible.env
+# export ANSIBLE_VAULT_PASSWORD="password"
+#
+# echo -n "access-key-from-csv" | ansible-vault encrypt_string --stdin-name "ec2_access_key" > ./ec2_access_key.txt
+# echo -n "secret-key-from-csv" | ansible-vault encrypt_string --stdin-name "ec2_secret_key" > ./ec2_secret_key.txt
+# then read the contents of files directly into this file, not copy-paste
+#
+#
+#
+
+# simple variables
+file_owner: xbalaji
+account_name: "innovation"
+
+# encrypted variables
+ec2_access_key: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          66333966353130326430633034623834326463346632396530306433373931383764663364316230
+          11111111111111111111111111111222222222222222222222222222233333333333333333333333
+          44444444444444444444444444555555555555555555555555555555555666666666666666666666
+          3231616434323562610a363264666262626266353837383939643035636431343263393337323032
+          65323466336266353036353566373734356664623662623435613531383664316262
+
+ec2_secret_key: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          36663166656630323334346535303034656230656630353962653638373964326661333834373861
+          11111111111111111111111111111222222222222222222222222222233333333333333333333333
+          44444444444444444444444444555555555555555555555555555555555666666666666666666666
+          6464653063353434350a343365663835373330333863616334396438346365386138323530343763
+          33356135643338333939383836336433323533306661643139363364323062616335313030346632
+          3038363266383965623031373434353336326461333231616265
+
