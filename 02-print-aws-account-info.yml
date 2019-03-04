@@ -1,0 +1,65 @@
+---
+
+#
+# Filename    : 02-print-aws-account-info.yml
+# Date        : 03 Mar 2019
+# Author      : Balaji Venkataraman (xbalaji@gmail.com)
+# Description : print aws caller info
+#
+# Usage:
+# run this playbook using one of the command as below
+# Note: This uses ./ansible.cfg for configuration
+#       Also, source ./ansible.env for setting the vault password
+#
+# host has to be specified explicity using "-i" option, when cfg is not used
+# password has to be taken from command line if 
+#   ANSIBLE_VAULT_PASSWORD, ANSIBLE_VAULT_PASSWORD_FILE not set in env.
+#
+# ansible-playbook 02-print-aws-account-info.yml
+# ansible-playbook 02-print-aws-account-info.yml --ask-vault-pass
+# ansible-playbook -i "localhost," --ask-vault-pass 02-print-aws-account-info.yml
+#
+# use -vvv in command line for verbose output
+# ansible-playbook 02-print-aws-account-info.yml -vvv
+#
+
+
+
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - include_vars: 
+        file: ec2_keys.yml
+
+    - name: Get the current caller identity facts
+      aws_caller_facts:
+        aws_access_key: "{{ec2_access_key}}"
+        aws_secret_key: "{{ec2_secret_key}}"
+        region: "us-east-1"
+        validate_certs: false
+      register: caller_facts
+
+    # debug that output
+    - name: print the caller facts
+      debug: 
+        msg: 
+          - "----------------------------------------"
+          - "{{ caller_facts }}"
+          - "----------------------------------------"
+
+#    - name: Gather AWS all region facts
+#      aws_az_facts:
+#        aws_access_key: "{{ec2_access_key}}"
+#        aws_secret_key: "{{ec2_secret_key}}"
+#        region: "us-east-1"
+#        validate_certs: false
+#      register: az_facts
+
+#    # debug that output
+#    - name: print az facts 
+#      debug: 
+#        msg: 
+#          - "----------------------------------------"
+#          - "{{ az_facts }}"
+#          - "----------------------------------------"
